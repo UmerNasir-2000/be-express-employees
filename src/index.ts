@@ -4,6 +4,8 @@ dotenv.config();
 import express from "express";
 import { StatusCodes } from "http-status-codes";
 import cors from "cors";
+import connectDatabase from "./utils/db";
+import employeeRouter from "./routes/employee.route";
 
 async function bootstrap() {
   const app = express();
@@ -16,9 +18,12 @@ async function bootstrap() {
     res.status(StatusCodes.OK).json({ message: "Zinda hai..." });
   });
 
+  app.use("/api/employee/", employeeRouter);
+
   const PORT = process.env.PORT || 3000;
 
   app.listen(PORT, () => {
+    connectDatabase();
     console.log(`Server is running on http://localhost:${PORT}/`);
   });
 }
